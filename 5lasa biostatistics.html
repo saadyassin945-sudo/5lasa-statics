@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>📊 Biostatistics – Complete Theoretical Summary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg1: #0a0e1a;
+            --bg2: #141e33;
+            --bg3: #1a2a45;
+            --primary: #4fc3f7;
+            --primary-dark: #0288d1;
+            --accent: #facc15;
+            --danger: #f87171;
+            --success: #34d399;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text: #e8edf5;
+            --muted: #94a3b8;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --glow: 0 0 30px rgba(79, 195, 247, 0.06);
+            --radius: 16px;
+            --header-bg: rgba(255, 255, 255, 0.03);
+            --header-border: rgba(255, 255, 255, 0.04);
+            --footer-border: rgba(255, 255, 255, 0.03);
+            --highlight-bg: #4fc3f7;
+            --highlight-text: #0f172a;
+        }
+        [data-theme="light"] {
+            --bg1: #f0f4f8;
+            --bg2: #e2e8f0;
+            --bg3: #cbd5e1;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text: #0f172a;
+            --muted: #475569;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --glow: 0 0 30px rgba(79, 195, 247, 0.02);
+            --header-bg: rgba(255, 255, 255, 0.7);
+            --header-border: rgba(0, 0, 0, 0.04);
+            --footer-border: rgba(0, 0, 0, 0.04);
+            --highlight-bg: #4fc3f7;
+            --highlight-text: #0f172a;
+        }
+        .highlight-text {
+            background-color: var(--highlight-bg);
+            color: var(--highlight-text);
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, 'Cairo', sans-serif;
+            background: linear-gradient(-45deg, var(--bg1), var(--bg2), var(--bg3), #0f1a2b);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            min-height: 100vh;
+            color: var(--text);
+            padding: 16px 8px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transition: background 0.4s ease;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .app { max-width: 1100px; width: 100%; }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 16px 16px;
+            background: var(--header-bg);
+            border-radius: 20px;
+            border: 1px solid var(--header-border);
+            backdrop-filter: blur(4px);
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 4px 25px rgba(79, 195, 247, 0.15);
+            transition: color 0.3s ease;
+        }
+        [data-theme="light"] .header h1 { color: #0f172a; text-shadow: none; }
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .sub {
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .header .creator {
+            color: var(--muted);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+        .header .creator i { color: var(--danger); }
+        .header .creator .name { color: var(--text); font-weight: 700; }
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+        }
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            background: rgba(79, 195, 247, 0.08);
+            transform: scale(1.05);
+        }
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+        [data-theme="light"] .theme-toggle:hover {
+            border-color: var(--primary);
+            background: rgba(79, 195, 247, 0.1);
+        }
+        .tabs-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .tab-btn:hover { border-color: var(--primary); color: var(--text); }
+        .tab-btn.active {
+            border-color: var(--primary);
+            background: rgba(79, 195, 247, 0.08);
+            color: var(--primary);
+        }
+        .tab-btn .en { display: block; font-size: 0.7rem; }
+        .tab-btn .ar { display: block; font-size: 0.55rem; opacity: 0.7; }
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow), var(--glow);
+            padding: 18px 14px;
+            margin-bottom: 16px;
+            transition: background 0.3s ease, border 0.3s ease;
+            display: none;
+        }
+        .card.active { display: block; }
+        .card h2 {
+            font-size: 1.3rem;
+            color: var(--text);
+            border-right: 4px solid var(--primary);
+            padding-right: 12px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        .card h2 i { color: var(--accent); margin-left: 6px; }
+        .slide-container {
+            position: relative;
+            min-height: 300px;
+        }
+        .slide {
+            display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+        .slide.active { display: block; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .slide-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .slide-progress .bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+        .slide-progress .bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #818cf8);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        .slide-progress .count {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .slide-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .slide-nav .btn-nav {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 80px;
+            text-align: center;
+        }
+        .slide-nav .btn-nav:hover:not(:disabled) {
+            background: rgba(79, 195, 247, 0.08);
+            border-color: var(--primary);
+        }
+        .slide-nav .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .slide-nav .btn-nav.primary {
+            background: var(--primary);
+            color: #0a0e1a;
+            border-color: var(--primary);
+        }
+        .slide-nav .btn-nav.primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        [data-theme="light"] .slide-nav .btn-nav {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+        [data-theme="light"] .slide-nav .btn-nav:hover:not(:disabled) {
+            background: rgba(79, 195, 247, 0.1);
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px 14px 12px;
+            transition: border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .topic-card:hover {
+            border-color: var(--primary);
+        }
+        .topic-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid rgba(79, 195, 247, 0.15);
+        }
+        .topic-card .card-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--primary);
+            line-height: 1.4;
+            flex: 1;
+        }
+        .topic-card .card-title-ar {
+            color: var(--muted);
+            font-weight: 400;
+            display: none;
+        }
+        .topic-card .card-title-ar.show {
+            display: inline;
+        }
+        .topic-card .card-title-en {
+            display: inline;
+        }
+        .topic-card .card-title-en.hidden {
+            display: none;
+        }
+        .topic-card .translate-btn {
+            background: rgba(79, 195, 247, 0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.6rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+        .topic-card .translate-btn:hover {
+            background: rgba(79, 195, 247, 0.18);
+            border-color: var(--primary);
+        }
+        .topic-card .translate-btn.active {
+            background: rgba(79, 195, 247, 0.18);
+            border-color: var(--primary);
+        }
+        .topic-card .card-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+        .topic-card .card-items li {
+            padding: 6px 0 6px 0;
+            line-height: 1.7;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        [data-theme="light"] .topic-card .card-items li {
+            border-bottom-color: rgba(0, 0, 0, 0.04);
+        }
+        .topic-card .card-items li:last-child {
+            border-bottom: none;
+        }
+        .topic-card .item-en {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: block;
+            text-align: left;
+            direction: ltr;
+        }
+        .topic-card .item-ar {
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            text-align: right;
+            direction: rtl;
+            display: none;
+            margin-top: 2px;
+            padding-right: 8px;
+            border-right: 2px solid rgba(79, 195, 247, 0.2);
+        }
+        .topic-card .item-ar.show {
+            display: block;
+        }
+        .footer-credit {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.12);
+            font-size: 0.7rem;
+            margin-top: 24px;
+            padding: 10px 0;
+            border-top: 1px solid var(--footer-border);
+        }
+        [data-theme="light"] .footer-credit { color: rgba(0, 0, 0, 0.2); }
+        .footer-credit .name { color: var(--primary); font-weight: 600; }
+        @media (max-width: 768px) {
+            body { padding: 8px 4px; }
+            .header { padding: 12px 10px; }
+            .header h1 { font-size: 1.4rem; }
+            .header .sub { font-size: 0.7rem; }
+            .header .creator { font-size: 0.65rem; }
+            .theme-toggle { width: 36px; height: 36px; font-size: 1rem; }
+            .tab-btn { padding: 6px 10px; font-size: 0.6rem; }
+            .tab-btn .en { font-size: 0.6rem; }
+            .tab-btn .ar { font-size: 0.5rem; }
+            .card { padding: 14px 10px; }
+            .card h2 { font-size: 1.1rem; padding-right: 8px; }
+            .slide-nav .btn-nav { padding: 8px 12px; font-size: 0.8rem; min-width: 60px; }
+            .topic-card { padding: 10px 10px; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+        @media (min-width: 601px) and (max-width: 900px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 901px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1200px) {
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <div class="header-top">
+                <div>
+                    <h1><span class="highlight">📊 Biostatistics</span></h1>
+                    <div class="sub">Complete Theoretical Summary · ملخص نظري شامل</div>
+                    <div class="creator"><i class="fas fa-user-graduate"></i> Created by <span class="name">MR. YASSIN THARWAT</span></div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+            </div>
+        </div>
+        <div class="tabs-wrap" id="tabsContainer"></div>
+        <div id="sectionsContainer"></div>
+        <div class="footer-credit">Created by <span class="name">MR. YASSIN THARWAT</span></div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  THEME
+        // ============================================================
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            const btn = document.getElementById('themeToggle');
+            if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+        }
+        window.toggleTheme = function() { applyTheme(currentTheme === 'dark' ? 'light' : 'dark'); };
+
+        // ============================================================
+        //  SLIDE SYSTEM
+        // ============================================================
+        let slideState = {};
+        function initSlideState(partId, total) { slideState[partId] = { current: 0, total: total }; }
+        function renderSlide(partId) {
+            const state = slideState[partId];
+            if (!state) return;
+            const container = document.getElementById('slideContainer-' + partId);
+            if (!container) return;
+            const slides = container.querySelectorAll('.slide');
+            slides.forEach((s, i) => s.classList.toggle('active', i === state.current));
+            const progress = container.querySelector('.slide-progress .fill');
+            const countSpan = container.querySelector('.slide-progress .count');
+            if (progress) progress.style.width = ((state.current + 1) / state.total * 100) + '%';
+            if (countSpan) countSpan.textContent = (state.current + 1) + ' / ' + state.total;
+            const prev = container.querySelector('.btn-nav.prev');
+            const next = container.querySelector('.btn-nav.next');
+            if (prev) prev.disabled = state.current === 0;
+            if (next) next.disabled = state.current === state.total - 1;
+        }
+        window.goToSlide = function(partId, index) {
+            const state = slideState[partId];
+            if (!state) return;
+            if (index < 0) index = 0;
+            if (index >= state.total) index = state.total - 1;
+            state.current = index;
+            renderSlide(partId);
+        };
+
+        // ============================================================
+        //  CARD BUILDER
+        // ============================================================
+        function cardWithItems(title, items, arTitle = '') {
+            const cardId = 'c' + Math.random().toString(36).substring(2, 8);
+            const itemsHTML = items.map(item => `
+                        <li>
+                            <span class="item-en">${item.en}</span>
+                            <span class="item-ar">${item.ar || ''}</span>
+                        </li>
+                    `).join('');
+            return `
+                        <div class="topic-card" data-card="${cardId}">
+                            <div class="card-header">
+                                <span class="card-title">
+                                    <span class="card-title-en">${title}</span>
+                                    <span class="card-title-ar" id="${cardId}-title-ar">${arTitle}</span>
+                                </span>
+                                <button class="translate-btn" data-card="${cardId}" onclick="toggleCardTranslation('${cardId}')">🇪🇬 ترجمة</button>
+                            </div>
+                            <ul class="card-items simple">${itemsHTML}</ul>
+                        </div>
+                    `;
+        }
+
+        window.toggleCardTranslation = function(cardId) {
+            const card = document.querySelector(`.topic-card[data-card="${cardId}"]`);
+            if (!card) return;
+            const arItems = card.querySelectorAll('.item-ar');
+            const titleAr = document.getElementById(cardId + '-title-ar');
+            const titleEn = card.querySelector('.card-title-en');
+            const btn = card.querySelector('.translate-btn');
+            const isVisible = arItems.length && arItems[0].classList.contains('show');
+            arItems.forEach(el => el.classList.toggle('show'));
+            if (titleAr) {
+                titleAr.classList.toggle('show');
+                if (titleEn) titleEn.classList.toggle('hidden');
+            }
+            if (btn) {
+                btn.textContent = isVisible ? '🇪🇬 ترجمة' : '✕ إخفاء';
+                btn.classList.toggle('active');
+            }
+        };
+
+        // ============================================================
+        //  THEORETICAL CONTENT – extracted from all questions (MCQ + TF)
+        // ============================================================
+        const sectionsData = [{
+            id: 'sampling',
+            titleEn: 'Sampling Basics',
+            titleAr: 'أساسيات العينات',
+            slides: [{
+                title: 'Core Concepts & Sampling Methods',
+                cards: [
+                    cardWithItems('Definitions:', [
+                        { en: '<span class="highlight-text">Population</span>: The entire group of individuals we want to study.',
+                            ar: '<span class="highlight-text">المجتمع</span>: المجموعة الكاملة من الأفراد المراد دراستهم.' },
+                        { en: '<span class="highlight-text">Sample</span>: A subset of the population selected to represent it.',
+                            ar: '<span class="highlight-text">العينة</span>: جزء من المجتمع يتم اختياره لتمثيله.' },
+                        { en: '<span class="highlight-text">Sampling</span>: The process of selecting a sample from the population.',
+                            ar: '<span class="highlight-text">أخذ العينات</span>: عملية اختيار عينة من المجتمع.' },
+                        { en: 'Sampling saves <span class="highlight-text">time and cost</span> compared to studying the whole population.',
+                            ar: 'أخذ العينات يوفر <span class="highlight-text">الوقت والتكلفة</span> مقارنة بدراسة المجتمع بأكمله.' }
+                    ], 'تعريفات أساسية:'),
+                    cardWithItems('Probability Sampling (random):', [
+                        { en: '<span class="highlight-text">Simple Random</span>: Every individual has an equal chance (fair).',
+                            ar: '<span class="highlight-text">عشوائية بسيطة</span>: كل فرد له فرصة متساوية (عادلة).' },
+                        { en: '<span class="highlight-text">Stratified</span>: Population divided into homogeneous strata; samples from each.',
+                            ar: '<span class="highlight-text">طبقية</span>: تقسيم المجتمع إلى طبقات متجانسة وأخذ عينات من كل طبقة.' },
+                        { en: '<span class="highlight-text">Systematic</span>: Select every k‑th element (interval = population/sample size).',
+                            ar: '<span class="highlight-text">منتظمة</span>: اختيار كل عنصر رقم k (الفاصل = حجم المجتمع ÷ حجم العينة).' },
+                        { en: '<span class="highlight-text">Cluster</span>: Select groups (clusters) rather than individuals; useful for geographically spread populations.',
+                            ar: '<span class="highlight-text">عنقودية</span>: اختيار مجموعات (عناقيد) بدلاً من أفراد؛ مفيدة للمجتمعات الموزعة جغرافياً.' }
+                    ], 'العينات الاحتمالية (عشوائية):'),
+                    cardWithItems('Non‑Probability Sampling (non‑random):', [
+                        { en: '<span class="highlight-text">Convenience</span>: Based on availability – <span class="highlight-text">most biased</span>.',
+                            ar: '<span class="highlight-text">ملاءمة</span>: تعتمد على التوفر – <span class="highlight-text">الأكثر انحيازاً</span>.' },
+                        { en: '<span class="highlight-text">Quota</span>: Similar to stratified but without randomness (judgment).',
+                            ar: '<span class="highlight-text">حصص</span>: تشبه الطبقية لكن بدون عشوائية (حكمية).' },
+                        { en: '<span class="highlight-text">Purposive</span>: Researcher selects typical cases based on judgment.',
+                            ar: '<span class="highlight-text">هادفة</span>: يختار الباحث حالات نموذجية بناءً على حكمه.' },
+                        { en: '⚠️ Non‑probability sampling lacks randomness and leads to <span class="highlight-text">bias</span>.',
+                            ar: '⚠️ العينات غير الاحتمالية تفتقر للعشوائية وتؤدي إلى <span class="highlight-text">انحياز</span>.' }
+                    ], 'العينات غير الاحتمالية (غير عشوائية):')
+                ]
+            }]
+        }, {
+            id: 'hospital',
+            titleEn: 'Hospital & Medical Records',
+            titleAr: 'إحصاءات المستشفيات والسجلات الطبية',
+            slides: [{
+                title: 'Key Indicators & Medical Records',
+                cards: [
+                    cardWithItems('Hospital Statistics:', [
+                        { en: 'Based on <span class="highlight-text">patient data</span>.',
+                            ar: 'تعتمد على <span class="highlight-text">بيانات المرضى</span>.' },
+                        { en: '<span class="highlight-text">Inpatient Census</span>: Count of inpatients, usually taken at <span class="highlight-text">midnight</span>.',
+                            ar: '<span class="highlight-text">إحصاء المرضى الداخليين</span>: يُحسب عادةً عند <span class="highlight-text">منتصف الليل</span>.' },
+                        { en: '<span class="highlight-text">Inpatient Service Day</span>: A full day of care (24 hours) for an inpatient.',
+                            ar: '<span class="highlight-text">يوم خدمة المريض</span>: يوم رعاية كامل (24 ساعة) لمريض داخلي.' },
+                        { en: 'Daily average = <span class="highlight-text">Total service days ÷ Number of days</span>.',
+                            ar: 'المتوسط اليومي = <span class="highlight-text">إجمالي أيام الخدمة ÷ عدد الأيام</span>.' }
+                    ], 'إحصاءات المستشفيات:'),
+                    cardWithItems('Medical Records:', [
+                        { en: 'Contain: <span class="highlight-text">patient history, diagnosis, treatment, observations</span>.',
+                            ar: 'تحتوي على: <span class="highlight-text">تاريخ المريض، التشخيص، العلاج، الملاحظات</span>.' },
+                        { en: 'Uses: <span class="highlight-text">treatment planning, legal issues, disease tracking, education</span>.',
+                            ar: 'الاستخدامات: <span class="highlight-text">تخطيط العلاج، القضايا القانونية، تتبع الأمراض، التعليم</span>.' },
+                        { en: 'Used to calculate <span class="highlight-text">mortality rates</span> and case fatality rates.',
+                            ar: 'تُستخدم لحساب <span class="highlight-text">معدلات الوفيات</span> ومعدلات الإماتة الحالة.' },
+                        { en: 'Must be <span class="highlight-text">accurate and well‑documented</span>.',
+                            ar: 'يجب أن تكون <span class="highlight-text">دقيقة وموثقة</span> بشكل جيد.' }
+                    ], 'السجلات الطبية:')
+                ]
+            }]
+        }, {
+            id: 'presentation',
+            titleEn: 'Data Presentation',
+            titleAr: 'عرض البيانات',
+            slides: [{
+                title: 'Methods of Data Presentation',
+                cards: [
+                    cardWithItems('General:', [
+                        { en: '<span class="highlight-text">Data Presentation</span>: Organizing data in tables, graphs, or text for clarity.',
+                            ar: '<span class="highlight-text">عرض البيانات</span>: تنظيم البيانات في جداول أو رسوم بيانية أو نصوص للتوضيح.' },
+                        { en: 'First step: <span class="highlight-text">Organize the data</span>.',
+                            ar: 'الخطوة الأولى: <span class="highlight-text">تنظيم البيانات</span>.' },
+                        { en: 'Identifying the <span class="highlight-text">audience</span> helps customize the presentation.',
+                            ar: 'تحديد <span class="highlight-text">الجمهور</span> يساعد في تخصيص العرض.' },
+                        { en: 'Good presentation <span class="highlight-text">improves understanding</span> and clarity.',
+                            ar: 'العرض الجيد <span class="highlight-text">يحسن الفهم</span> والوضوح.' }
+                    ], 'عام:'),
+                    cardWithItems('Types of Presentation:', [
+                        { en: '<span class="highlight-text">Textual</span>: Using words and sentences.',
+                            ar: '<span class="highlight-text">نصي</span>: استخدام الكلمات والجمل.' },
+                        { en: '<span class="highlight-text">Tabular</span>: Arranging data in rows and columns (tables).',
+                            ar: '<span class="highlight-text">جدولي</span>: ترتيب البيانات في صفوف وأعمدة (جداول).' },
+                        { en: '<span class="highlight-text">Graphical</span>: Using charts to show patterns and relationships.',
+                            ar: '<span class="highlight-text">بياني</span>: استخدام الرسوم البيانية لإظهار الأنماط والعلاقات.' }
+                    ], 'أنواع العرض:'),
+                    cardWithItems('Common Graphs & Their Uses:', [
+                        { en: '<span class="highlight-text">Bar Chart</span>: Compares categories (categorical data).',
+                            ar: '<span class="highlight-text">مخطط عمودي</span>: يقارن الفئات (بيانات فئوية).' },
+                        { en: '<span class="highlight-text">Pie Chart</span>: Shows percentages (parts of a whole).',
+                            ar: '<span class="highlight-text">مخطط دائري</span>: يظهر النسب المئوية (أجزاء من الكل).' },
+                        { en: '<span class="highlight-text">Line Graph</span>: Shows trends over time (time series).',
+                            ar: '<span class="highlight-text">رسم خطي</span>: يظهر الاتجاهات عبر الزمن (سلاسل زمنية).' },
+                        { en: '<span class="highlight-text">Scatter Plot</span>: Shows relationship (correlation) between two variables.',
+                            ar: '<span class="highlight-text">مخطط تشتت</span>: يظهر العلاقة (الارتباط) بين متغيرين.' },
+                        { en: '<span class="highlight-text">Histogram</span>: For continuous data (ages, weights) – bars are attached.',
+                            ar: '<span class="highlight-text">مدرج تكراري</span>: للبيانات المستمرة (أعمار، أوزان) – الأعمدة متصلة.' },
+                        { en: '⚠️ Histogram is <span class="highlight-text">not</span> for categorical data; bar chart is used for categories.',
+                            ar: '⚠️ المدرج التكراري <span class="highlight-text">ليس</span> للبيانات الفئوية؛ المخطط العمودي يُستخدم للفئات.' }
+                    ], 'الرسوم البيانية الشائعة واستخداماتها:')
+                ]
+            }]
+        }, {
+            id: 'descriptive',
+            titleEn: 'Descriptive Statistics',
+            titleAr: 'الإحصاء الوصفي',
+            slides: [{
+                title: 'Frequency Distributions & Measures',
+                cards: [
+                    cardWithItems('Frequency Distribution:', [
+                        { en: '<span class="highlight-text">Frequency</span>: Number of times a value occurs.',
+                            ar: '<span class="highlight-text">التكرار</span>: عدد مرات حدوث القيمة.' },
+                        { en: '<span class="highlight-text">Range</span>: Maximum – Minimum value.',
+                            ar: '<span class="highlight-text">المدى</span>: القيمة العظمى – الصغرى.' },
+                        { en: '<span class="highlight-text">Class Interval</span>: Difference between upper and lower limits of a class.',
+                            ar: '<span class="highlight-text">الفترة الطبقية</span>: الفرق بين الحد الأعلى والأدنى للفئة.' },
+                        { en: '<span class="highlight-text">Relative Frequency</span>: Class frequency ÷ Total frequency.',
+                            ar: '<span class="highlight-text">التكرار النسبي</span>: تكرار الفئة ÷ إجمالي التكرارات.' },
+                        { en: '<span class="highlight-text">Cumulative Frequency</span>: Sum of frequencies up to a class (displayed as Ogive).',
+                            ar: '<span class="highlight-text">التكرار التراكمي</span>: مجموع التكرارات حتى فئة معينة (يُعرض بـ Ogive).' },
+                        { en: 'First step in constructing a frequency distribution: <span class="highlight-text">determine the range</span>.',
+                            ar: 'الخطوة الأولى في بناء توزيع تكراري: <span class="highlight-text">تحديد المدى</span>.' }
+                    ], 'التوزيع التكراري:'),
+                    cardWithItems('Measures of Central Tendency:', [
+                        { en: '<span class="highlight-text">Mean</span>: Sum of values ÷ Count. <span class="highlight-text">Affected by extreme values</span>.',
+                            ar: '<span class="highlight-text">المتوسط</span>: مجموع القيم ÷ العدد. <span class="highlight-text">يتأثر بالقيم المتطرفة</span>.' },
+                        { en: '<span class="highlight-text">Median</span>: Middle value in ordered data. <span class="highlight-text">Not affected by outliers</span>.',
+                            ar: '<span class="highlight-text">الوسيط</span>: القيمة الوسطى في البيانات المرتبة. <span class="highlight-text">لا يتأثر بالقيم المتطرفة</span>.' },
+                        { en: '<span class="highlight-text">Mode</span>: Most frequent value (can be used for nominal data).',
+                            ar: '<span class="highlight-text">المنوال</span>: القيمة الأكثر تكراراً (يمكن استخدامه للبيانات الاسمية).' },
+                        { en: 'In a symmetrical distribution: <span class="highlight-text">mean = median</span>.',
+                            ar: 'في التوزيع المتماثل: <span class="highlight-text">المتوسط = الوسيط</span>.' }
+                    ], 'مقاييس النزعة المركزية:'),
+                    cardWithItems('Measures of Dispersion:', [
+                        { en: '<span class="highlight-text">Variance</span>: Average of squared deviations from the mean (squared units).',
+                            ar: '<span class="highlight-text">التباين</span>: متوسط مربعات الانحرافات عن المتوسط (بوحدات مربعة).' },
+                        { en: '<span class="highlight-text">Standard Deviation</span>: Square root of variance (same unit as data).',
+                            ar: '<span class="highlight-text">الانحراف المعياري</span>: الجذر التربيعي للتباين (نفس وحدة البيانات).' },
+                        { en: '<span class="highlight-text">Interquartile Range (IQR)</span>: Q3 – Q1 (less sensitive to outliers than range).',
+                            ar: '<span class="highlight-text">المدى الربيعي (IQR)</span>: Q3 – Q1 (أقل حساسية للقيم المتطرفة من المدى).' },
+                        { en: 'Small standard deviation = <span class="highlight-text">low variability</span> (data clustered).',
+                            ar: 'انحراف معياري صغير = <span class="highlight-text">تباين منخفض</span> (بيانات متقاربة).' }
+                    ], 'مقاييس التشتت:')
+                ]
+            }]
+        }, {
+            id: 'vital',
+            titleEn: 'Vital Statistics',
+            titleAr: 'الإحصاءات الحيوية',
+            slides: [{
+                title: 'Births, Deaths, and Disease Measures',
+                cards: [
+                    cardWithItems('Core Concepts:', [
+                        { en: 'Vital statistics cover: <span class="highlight-text">births, deaths, marriage, divorce</span>.',
+                            ar: 'تشمل الإحصاءات الحيوية: <span class="highlight-text">المواليد، الوفيات، الزواج، الطلاق</span>.' },
+                        { en: 'Used to assess <span class="highlight-text">population health</span> and plan health services.',
+                            ar: 'تُستخدم لتقييم <span class="highlight-text">صحة السكان</span> وتخطيط الخدمات الصحية.' },
+                        { en: '<span class="highlight-text">Population at Risk</span>: Individuals susceptible to a disease (e.g., women aged 15–49 for fertility).',
+                            ar: '<span class="highlight-text">السكان المعرضون للخطر</span>: الأفراد القابلين للإصابة بمرض (مثل النساء 15-49 للخصوبة).' }
+                    ], 'مفاهيم أساسية:'),
+                    cardWithItems('Birth & Fertility Rates:', [
+                        { en: '<span class="highlight-text">Crude Birth Rate (CBR)</span>: (Live births ÷ Total population) × 1000.',
+                            ar: '<span class="highlight-text">معدل المواليد الخام (CBR)</span>: (المواليد الأحياء ÷ إجمالي السكان) × 1000.' },
+                        { en: '<span class="highlight-text">General Fertility Rate (GFR)</span>: (Live births ÷ Women 15–49) × 1000.',
+                            ar: '<span class="highlight-text">معدل الخصوبة العام (GFR)</span>: (المواليد ÷ النساء 15–49) × 1000.' },
+                        { en: 'Early marriage and lack of family planning <span class="highlight-text">increase birth rates</span>.',
+                            ar: 'الزواج المبكر وغياب تنظيم الأسرة <span class="highlight-text">يزيدان معدلات المواليد</span>.' }
+                    ], 'معدلات المواليد والخصوبة:'),
+                    cardWithItems('Mortality & Disease Rates:', [
+                        { en: '<span class="highlight-text">Crude Death Rate (CDR)</span>: (Total deaths ÷ Population) × 1000.',
+                            ar: '<span class="highlight-text">معدل الوفيات الخام (CDR)</span>: (جميع الوفيات ÷ السكان) × 1000.' },
+                        { en: '<span class="highlight-text">Case Fatality Rate</span>: (Deaths from disease ÷ Cases) × 100 – measures <span class="highlight-text">disease severity</span>.',
+                            ar: '<span class="highlight-text">معدل الإماتة الحالة</span>: (الوفيات من مرض ÷ المصابين) × 100 – يقيس <span class="highlight-text">شدة المرض</span>.' },
+                        { en: '<span class="highlight-text">Cause‑Specific Mortality Rate</span>: (Deaths from specific cause ÷ Population) × 100,000.',
+                            ar: '<span class="highlight-text">معدل الوفيات النوعي لسبب معين</span>: (الوفيات من سبب معين ÷ السكان) × 100,000.' },
+                        { en: '<span class="highlight-text">Prevalence</span>: Total existing cases at a specific point in time.',
+                            ar: '<span class="highlight-text">الانتشار</span>: إجمالي الحالات الموجودة في وقت محدد.' },
+                        { en: '<span class="highlight-text">Incidence</span>: New cases occurring during a specified period.',
+                            ar: '<span class="highlight-text">الحدوث</span>: الحالات الجديدة خلال فترة محددة.' },
+                        { en: 'Longer disease duration <span class="highlight-text">increases prevalence</span>; vaccination <span class="highlight-text">reduces incidence</span>.',
+                            ar: 'طول مدة المرض <span class="highlight-text">يزيد الانتشار</span>؛ التطعيم <span class="highlight-text">يقلل الحدوث</span>.' }
+                    ], 'معدلات الوفيات والمرض:'),
+                    cardWithItems('ICD (International Classification of Diseases):', [
+                        { en: 'Used to classify <span class="highlight-text">causes of death</span> and diseases uniformly worldwide.',
+                            ar: 'يُستخدم لتصنيف <span class="highlight-text">أسباب الوفاة</span> والأمراض بشكل موحد دولياً.' }
+                    ], 'التصنيف الدولي للأمراض (ICD):')
+                ]
+            }]
+        }];
+
+        // ============================================================
+        //  BUILD APP
+        // ============================================================
+        function buildApp() {
+            const tabsContainer = document.getElementById('tabsContainer');
+            const sectionsContainer = document.getElementById('sectionsContainer');
+
+            sectionsData.forEach((sec, idx) => {
+                const secId = sec.id;
+                const totalSlides = sec.slides.length;
+
+                const tab = document.createElement('button');
+                tab.className = 'tab-btn' + (idx === 0 ? ' active' : '');
+                tab.dataset.idx = idx;
+                tab.innerHTML = `<span class="en">${sec.titleEn}</span><span class="ar">${sec.titleAr}</span>`;
+                tab.onclick = function() { switchSection(idx); };
+                tabsContainer.appendChild(tab);
+
+                const card = document.createElement('div');
+                card.className = 'card' + (idx === 0 ? ' active' : '');
+                card.dataset.idx = idx;
+                card.id = 'section-' + secId;
+
+                let slidesHTML = '';
+                sec.slides.forEach((slide, i) => {
+                    const cardsHTML = slide.cards.join('');
+                    slidesHTML += `
+                                <div class="slide">
+                                    <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:12px; border-right:3px solid var(--primary); padding-right:10px;">${slide.title}</h3>
+                                    <div class="cards-grid">${cardsHTML}</div>
+                                </div>
+                            `;
+                });
+
+                card.innerHTML = `
+                            <h2><i class="fas fa-layer-group"></i> ${sec.titleEn} · ${sec.titleAr}</h2>
+                            <div class="slide-container" id="slideContainer-${secId}">
+                                <div class="slide-progress">
+                                    <span style="font-weight:600;">Progress</span>
+                                    <div class="bar"><div class="fill" style="width:0%;"></div></div>
+                                    <span class="count">1 / ${totalSlides}</span>
+                                </div>
+                                ${slidesHTML}
+                                <div class="slide-nav">
+                                    <button class="btn-nav prev" onclick="goToSlide('${secId}', slideState['${secId}'].current - 1)">Previous</button>
+                                    <button class="btn-nav next primary" onclick="goToSlide('${secId}', slideState['${secId}'].current + 1)">Next</button>
+                                </div>
+                            </div>
+                        `;
+                sectionsContainer.appendChild(card);
+
+                initSlideState(secId, totalSlides);
+                setTimeout(() => renderSlide(secId), 20);
+            });
+        }
+
+        function switchSection(idx) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const cards = document.querySelectorAll('.card');
+            tabs.forEach((tab, i) => tab.classList.toggle('active', i === idx));
+            cards.forEach((card, i) => card.classList.toggle('active', i === idx));
+
+            const secId = sectionsData[idx].id;
+            if (slideState[secId]) {
+                slideState[secId].current = 0;
+                setTimeout(() => renderSlide(secId), 20);
+            }
+        }
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        applyTheme(localStorage.getItem('theme') || 'dark');
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', buildApp);
+        } else {
+            buildApp();
+        }
+    </script>
+</body>
+</html>
